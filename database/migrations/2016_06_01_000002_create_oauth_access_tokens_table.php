@@ -19,6 +19,7 @@ class CreateOauthAccessTokensTable extends Migration
             $table->integer('client_id')->index();
             $table->string('name')->nullable();
             $table->text('scopes')->nullable();
+            $table->text('claims')->nullable();
             $table->boolean('revoked');
             $table->timestamps();
             $table->dateTime('expires_at')->nullable();

@@ -57,14 +57,16 @@ trait HasApiTokens
     /**
      * Create a new personal access token for the user.
      *
-     * @param  string  $name
+     * @param  string $name
      * @param  array  $scopes
-     * @return \Laravel\Passport\PersonalAccessTokenResult
+     * @param array   $claims
+     *
+     * @return PersonalAccessTokenResult
      */
-    public function createToken($name, array $scopes = [])
+    public function createToken($name, array $scopes = [], array $claims = [])
     {
         return Container::getInstance()->make(PersonalAccessTokenFactory::class)->make(
-            $this->getKey(), $name, $scopes
+            $this->getKey(), $name, $scopes, $claims
         );
     }
 

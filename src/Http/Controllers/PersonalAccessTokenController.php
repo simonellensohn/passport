@@ -52,10 +52,11 @@ class PersonalAccessTokenController
         $this->validation->make($request->all(), [
             'name' => 'required|max:255',
             'scopes' => 'array|in:'.implode(',', Passport::scopeIds()),
+            'claims' => 'array',
         ])->validate();
 
         return $request->user()->createToken(
-            $request->name, $request->scopes ?: []
+            $request->name, $request->scopes ?: [], $request->claims ?: []
         );
     }
 

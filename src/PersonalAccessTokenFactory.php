@@ -61,20 +61,23 @@ class PersonalAccessTokenFactory
      * Create a new personal access token.
      *
      * @param  mixed  $userId
-     * @param  string  $name
+     * @param  string $name
      * @param  array  $scopes
+     * @param  array  $claims
+     *
      * @return PersonalAccessTokenResult
      */
-    public function make($userId, $name, array $scopes = [])
+    public function make($userId, $name, array $scopes = [], array $claims = [])
     {
         $response = $this->dispatchRequestToAuthorizationServer(
             $this->createRequest($this->clients->personalAccessClient(), $userId, $scopes)
         );
 
-        $token = tap($this->findAccessToken($response), function ($token) use ($userId, $name) {
+        $token = tap($this->findAccessToken($response), function ($token) use ($userId, $name, $claims) {
             $this->tokens->save($token->forceFill([
                 'user_id' => $userId,
                 'name' => $name,
+                'claims' => json_encode($claims, true),
             ]));
         });
 
